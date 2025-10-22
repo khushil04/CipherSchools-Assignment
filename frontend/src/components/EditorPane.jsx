@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Editor } from '@monaco-editor/react';
 import { getLanguageFromExtension, getFileExtension } from '../utils/projectUtils';
+import LanguageSelector from './LanguageSelector';
+import '../styles/EditorPane.css';
 
 const EditorPane = ({ 
   activeFile, 
@@ -9,10 +11,15 @@ const EditorPane = ({
 }) => {
   const [editorContent, setEditorContent] = useState('');
   const [isEditorReady, setIsEditorReady] = useState(false);
+  const [selectedLanguage, setSelectedLanguage] = useState('javascript');
 
   useEffect(() => {
     if (activeFile) {
       setEditorContent(activeFile.content || '');
+      // Set language based on file extension
+      const fileExtension = getFileExtension(activeFile.name);
+      const language = getLanguageFromExtension(fileExtension);
+      setSelectedLanguage(language || 'javascript');
     } else {
       setEditorContent('');
     }
@@ -53,6 +60,10 @@ const EditorPane = ({
     return 'vs-dark';
   };
 
+  const handleLanguageChange = (languageId) => {
+    setSelectedLanguage(languageId);
+  };
+
   if (!activeFile) {
     return (
       <div className="editor-pane no-file">
@@ -72,6 +83,10 @@ const EditorPane = ({
           <span className="file-path">{activeFile.path}</span>
         </div>
         <div className="editor-actions">
+          <LanguageSelector 
+            onSelectLanguage={handleLanguageChange} 
+            selectedLanguage={selectedLanguage} 
+          />
           <span className="language-badge">{getLanguage()}</span>
         </div>
       </div>
@@ -79,7 +94,7 @@ const EditorPane = ({
       <div className="editor-container">
         <Editor
           height="100%"
-          language={getLanguage()}
+          language={selectedLanguage}
           theme={getEditorTheme()}
           value={editorContent}
           onChange={handleEditorChange}

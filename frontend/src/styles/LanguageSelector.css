@@ -1,0 +1,98 @@
+.language-selector {
+  position: relative;
+  width: 60px;
+  user-select: none;
+}
+
+.selected-language {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #1e1e1e;
+  color: white;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  height: 60px;
+  margin-bottom: 8px;
+  transition: background-color 0.2s;
+}
+
+.selected-language:hover {
+  background-color: #2a2a2a;
+}
+
+.language-icon {
+  font-size: 24px;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.language-name {
+  font-size: 12px;
+  text-align: center;
+}
+
+.language-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: #1e1e1e;
+  border-radius: 8px;
+  overflow: hidden;
+  z-index: 100;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.language-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  cursor: pointer;
+  height: 60px;
+  transition: background-color 0.2s;
+}
+
+.language-option:hover {
+  background-color: #2a2a2a;
+}
+
+.language-option.active {
+  background-color: #2d8cff20;
+}
+
+/* React icon styling */
+.language-option:first-child .language-icon {
+  color: #61dafb;
+}
+
+/* Custom styling for language icons */
+.language-option:nth-child(1) .language-icon { /* React */
+  color: #61dafb;
+}
+
+.language-option:nth-child(2) .language-icon { /* C */
+  color: #283593;
+}
+
+.language-option:nth-child(3) .language-icon { /* C# */
+  color: #68217a;
+}
+
+.language-option:nth-child(4) .language-icon { /* JavaScript */
+  color: #f7df1e;
+}
+
+.language-option:nth-child(5) .language-icon { /* Python */
+  color: #3776ab;
+}
+
+.language-option:nth-child(6) .language-icon { /* Java */
+  color: #f89820;
+}
