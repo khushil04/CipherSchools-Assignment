@@ -39,8 +39,9 @@ export const useProjectStorage = () => {
       setProjectId(newProjectId);
     }
 
+    const newId = `project_${Date.now()}`;
     const projectData = {
-      id: projectId || `project_${Date.now()}`,
+      id: projectId || newId,
       name: `Project ${new Date().toLocaleDateString()}`,
       files: projectFiles,
       activeFile: activeFile?.path,
@@ -48,8 +49,8 @@ export const useProjectStorage = () => {
       updatedAt: new Date().toISOString()
     };
 
-    localStorage.setItem(`project_${projectId || newProjectId}`, JSON.stringify(projectData));
-    localStorage.setItem('currentProjectId', projectId || newProjectId);
+    localStorage.setItem(`project_${projectId || newId}`, JSON.stringify(projectData));
+    localStorage.setItem('currentProjectId', projectId || newId);
     setLastSaved(new Date());
     
     return projectData;
@@ -109,7 +110,9 @@ export const useProjectStorage = () => {
     const reader = new FileReader();
     reader.onload = (e) => {
       try {
-        const projectData = JSON.parse(e.target.result);
+        const result = e.target?.result;
+        // Ensure we're working with a string
+        const projectData = JSON.parse(typeof result === 'string' ? result : '');
         if (projectData.files) {
           setProjectFiles(projectData.files);
           setActiveFile(projectData.files.find(file => file.name === 'App.js'));
@@ -141,7 +144,7 @@ export const useProjectStorage = () => {
         }
       }
     }
-    return projects.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+    return projects.sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime());
   }, []);
 
   const deleteProject = useCallback((id) => {
